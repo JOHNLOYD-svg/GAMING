@@ -6,6 +6,7 @@ import Play from "./app/play";
 import Login from "./app/login";
 import Profile from "./app/profile";
 import Signup from "./app/signup";
+import Collab from "./app/collab";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -18,6 +19,7 @@ root.render(
         <Route path="/login" element={<Login />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/collab" element={<Collab />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

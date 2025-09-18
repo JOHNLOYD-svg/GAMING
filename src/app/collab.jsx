@@ -1,19 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { ref, push, onValue } from "firebase/database";
+import { db } from "../firebaseConfig";
 import Layout from "./_layout";
 
 
-const sampleUsers = ["Alice", "Bob", "Charlie", "Diana", "Eve"];
+const sampleUsers = ["John", "Bob", "Charlie", "Diana", "Eve"];
 
 const Collab = () => {
 	const [message, setMessage] = useState("");
 	const [messages, setMessages] = useState([]);
 
+	useEffect(() => {
+		const messagesRef = ref(db, "collabMessages");
+		onValue(messagesRef, (snapshot) => {
+			const data = snapshot.val();
+			if (data) {
+				setMessages(Object.values(data));
+			} else {
+				setMessages([]);
+			}
+		});
+	}, []);
+
 	const handleSend = (e) => {
 		e.preventDefault();
 		if (message.trim()) {
-			// Pick a random user for each message
 			const user = sampleUsers[Math.floor(Math.random() * sampleUsers.length)];
-			setMessages([...messages, { user, text: message }]);
+			const messagesRef = ref(db, "collabMessages");
+			push(messagesRef, { user, text: message });
 			setMessage("");
 		}
 	};
